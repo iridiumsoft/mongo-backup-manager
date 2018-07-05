@@ -1,0 +1,19 @@
+version:
+  services:
+    go_app:
+        image: golang:1.10
+        volume:
+          - .:/src/github.com/iridiumsoft/iridium-mlm
+        working_dir:
+          - /src/github.com/iridiumsoft/iridium-mlm
+        command: go build main.go && ./main
+        links:
+            - mongo
+        ports:
+            - '5212:5212'
+    mongo:
+      image: mongo:3.6
+      volume:
+           - /data/db:/data/db:
+      ports:
+          - '27017:27017'

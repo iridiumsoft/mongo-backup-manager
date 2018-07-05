@@ -1,0 +1,16 @@
+{
+  "port": "5212",
+  "database": {
+    "name": "iridium"
+  },
+  "exclude_collections_in_backup": [
+    "material",
+    "training_materials"
+  ],
+  "aws": {
+    "region": "us-west-1",
+    "access_key": "AKIAI6OTF7MIVI34QEKA",
+    "secrete_key": "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",
+    "bucket": "cdn.hgicrusade.com"
+  }
+}
