@@ -2,8 +2,11 @@ package util
 
 import (
 	// Core Packages
+	"io"
+	"os"
 	"fmt"
 	"bytes"
+	"net/http"
 
 	// Local Packages
 	"github.com/sirupsen/logrus"
@@ -14,9 +17,6 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/aws/credentials"
-	"os"
-	"net/http"
-	"io"
 )
 
 type S3Service struct {
