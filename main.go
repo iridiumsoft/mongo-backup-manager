@@ -52,7 +52,7 @@ func configure() {
 }
 
 func initDB(conf config.Main) (*mgo.Database, error) {
-	session, err := mgo.Dial("mongodb://" + conf.DB.Host + "/" + conf.DB.Name)
+	session, err := mgo.Dial("mongodb://" + conf.DB.Host)
 	db := session.DB(conf.DB.Name)
 	return db, err
 }

@@ -28,11 +28,13 @@ func (c *Controllers) ManualBackup(context *gin.Context) {
 }
 
 func (c *Controllers) DBDump(UpdatesOnly bool) {
+
 	var files []string
 	var where = bson.M{}
 
 	DateTime := time.Now().Format("2006-01-02-150405")
 	logrus.Println("Backup Bot started", DateTime)
+
 	// get list of collections
 	collections, err := c.App.DB.CollectionNames()
 	if err != nil {
@@ -54,12 +56,14 @@ func (c *Controllers) DBDump(UpdatesOnly bool) {
 		var docs []bson.M
 		// find all Documents of a collection
 		c.App.DB.C(collection).Find(where).All(&docs)
+
 		// check if values are more than 0, then create a json file
 		if len(docs) == 0 {
 			continue
 		}
 
 		filePath := TempPath + collection + ".json"
+
 		// Check if ObjectId Exists
 		docs = util.Map(docs, func(ms bson.M) bson.M {
 			for k, v := range ms {
@@ -134,9 +138,13 @@ func (c *Controllers) ImportView(context *gin.Context) {
 }
 
 func (c *Controllers) RestoreDB(context *gin.Context) {
+
 	id := bson.ObjectId(context.Param("id"))
+
 	filterCollections := []string{"users"}
+
 	var Backup models.Backup
+
 	c.App.DB.C("backups").Find(bson.M{"_id": id}).One(&Backup)
 	if Backup.Id == "" {
 		context.JSON(http.StatusNotFound, bson.M{"error": "Invalid Id", "Backup": Backup, "Id": id,})
@@ -145,7 +153,9 @@ func (c *Controllers) RestoreDB(context *gin.Context) {
 
 	// Get Zip folder from S3 Bucket
 	filePath := TempPath + Backup.Name + ".zip"
+
 	err := c.App.S3Service.GetObject(S3DBBackUpPath+Backup.Name+".zip", filePath)
+
 	if err != nil {
 		context.JSON(http.StatusNotFound, bson.M{"error": err.Error(), "step": "GetObject",})
 		return
@@ -172,25 +182,32 @@ func (c *Controllers) RestoreDB(context *gin.Context) {
 			c.UpdateFileInDb(TempFilePath+"/"+name, collectionName)
 		}
 	}
+
 	context.JSON(http.StatusOK, bson.M{"Status": "Completed"})
+
 }
 
 func (c *Controllers) UpdateFileInDb(path string, collectionName string) {
+
 	f, _ := ioutil.ReadFile(path)
+
 	var docs []bson.M
+
 	err := json.Unmarshal(f, &docs)
+
 	if err != nil {
 		log.Print("Error while Unmarshal doc: ", err.Error())
 		return
 	}
 
 	for _, item := range docs {
+
 		// get ID
 		ID := item["_id"].(bson.M)["$id"]
 		// Delete _id from item
 		delete(item, "_id")
 		for k, i := range item {
-			c := i.(map[string]interface{})
+			c := i.(bson.M)
 			if c["$id"] != nil {
 				// check if $id exists so that we can convert it to object
 				item[k] = c["$id"]
@@ -207,5 +224,7 @@ func (c *Controllers) UpdateFileInDb(path string, collectionName string) {
 
 		// update exiting
 		c.App.DB.C(collectionName).Update(bson.M{"_id": ID}, item)
+
 	}
+
 }
