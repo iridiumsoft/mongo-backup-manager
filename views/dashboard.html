@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="dbBackup">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/md-fonts/mdf.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<nav class="navbar navbar-default header">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img class="logo" src="/assets/images/logo.png" alt="">
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#/backups">Backups</a></li>
+                <li><a href="#/schedule">Schedule</a></li>
+                <li><a href="#/my-admin">My Admin</a></li>
+                <li><a href="#/account">Account</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+{{/*<div class="set-content">*/}}
+    <div ng-view></div>
+{{/*</div>*/}}
+
+
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/angular.min.js"></script>
+<script src="/assets/js/ngRoute.js"></script>
+<script src="/assets/js/app.js"></script>
+</body>
+</html>
