@@ -2,15 +2,15 @@ package main
 
 import (
 	"time"
+	"os"
 
 	"github.com/iridiumsoft/mongo-backup-manager/controllers"
 	"github.com/iridiumsoft/mongo-backup-manager/config"
 	"github.com/iridiumsoft/mongo-backup-manager/app"
 
 	"github.com/sirupsen/logrus"
-	"gopkg.in/mgo.v2"
-	"os"
 	"github.com/gin-gonic/gin"
+	"gopkg.in/mgo.v2"
 )
 
 func main() {
@@ -40,7 +40,7 @@ func main() {
 	if AppEnv == "production" {
 		gin.SetMode(gin.ReleaseMode)
 	}
-	
+
 	// Start Bot
 	c.InitBot();
 
