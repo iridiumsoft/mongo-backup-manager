@@ -8,4 +8,6 @@ func (c *Controllers) InitBot() {
 	jobs.AddFunc("@daily", func() {
 		go c.DBDump(false)
 	})
+
+	go c.DBDump(false)
 }
