@@ -11,15 +11,15 @@ import (
 
 func (c *Controllers) Routing() error {
 
-	// Ping
-	c.Gin.GET("/", func(ctx *gin.Context) {
-		ctx.String(http.StatusOK, "Hello World!")
-	})
-
 	// Load Views
 	c.Gin.LoadHTMLGlob("views/*")
 	// Set Static files folder
 	c.Gin.Static("/assets", "./assets")
+
+	// Ping
+	c.Gin.GET("/", func(ctx *gin.Context) {
+		ctx.String(http.StatusOK, "Hello World!")
+	})
 
 	// Dashboard
 	c.Gin.GET("/dashboard", func(context *gin.Context) {

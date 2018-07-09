@@ -9,6 +9,8 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"gopkg.in/mgo.v2"
+	"os"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -34,6 +36,11 @@ func main() {
 	// Pass app and config to Controllers
 	c := controllers.New(conf, application)
 
+	AppEnv := os.Getenv("APP_ENV")
+	if AppEnv == "production" {
+		gin.SetMode(gin.ReleaseMode)
+	}
+	
 	// Start Bot
 	c.InitBot();
 
