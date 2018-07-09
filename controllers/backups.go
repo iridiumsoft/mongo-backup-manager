@@ -23,7 +23,7 @@ const (
 )
 
 func (c *Controllers) ManualBackup(context *gin.Context) {
-	go c.DBDump(false)
+	c.DBDump(false)
 	context.String(http.StatusOK, "Backup Job Started")
 }
 
