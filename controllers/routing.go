@@ -18,9 +18,13 @@ func (c *Controllers) Routing() error {
 
 	// Load Views
 	c.Gin.LoadHTMLGlob("views/*")
-
 	// Set Static files folder
 	c.Gin.Static("/assets", "./assets")
+
+	// Dashboard
+	c.Gin.GET("/dashboard", func(context *gin.Context) {
+		context.HTML(http.StatusOK, "dashboard.html", bson.M{})
+	})
 
 	// Backups
 	c.Gin.GET("/backup", c.ManualBackup)
@@ -28,16 +32,7 @@ func (c *Controllers) Routing() error {
 	c.Gin.GET("/backup/import", c.ImportView)
 	c.Gin.POST("/backup/import", c.ImportCollection)
 	c.Gin.GET("/backup/restore/:id", c.RestoreDB)
-	// Dashboard
-	c.Gin.GET("/dashboard", func(context *gin.Context) {
-		context.HTML(http.StatusOK, "dashboard.html", bson.M{})
-	})
-	// Make sure every requests is authenticated
-	authorize := c.Gin.Group("/auth")
-	authorize.Use(c.isLogin)
-	authorize.GET("user", func(context *gin.Context) {
-		context.String(http.StatusOK, "Ok")
-	})
+
 	return c.Gin.Run(":" + c.Config.Port)
 }
 
